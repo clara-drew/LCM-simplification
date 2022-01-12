@@ -1,6 +1,7 @@
 library(ggplot2)
 
 source("../EM_functions_MAR.R")
+source("t2_poly_fun.R")
 
 maxT = 3:8
 mid=rep(2:4,each=2)
@@ -51,10 +52,10 @@ for(i in 1:4){
   
   for(j in 1:6){
     
-    t2=invlogit(b0+b2[j]*(0:(maxT[j]-1)))
+    t2=t2_poly(maxT[j])
     
-    df_t2 = read.csv(paste("t3",theta3[i],"/df_","t2_",maxT[j],".csv",sep=""))
-    df_t2_fm = read.csv(paste("t3",theta3[i],"/df_","t2_",maxT[j],"_fm.csv",sep=""))
+    df_t2 = read.csv(paste("pt3",theta3[i],"/df_","t2_",maxT[j],".csv",sep=""))
+    df_t2_fm = read.csv(paste("pt3",theta3[i],"/df_","t2_",maxT[j],"_fm.csv",sep=""))
     
     t2_til[[j]] = subset(df_t2, select=c(paste("t2_til_",1:maxT[j],sep="")))
     t2_til_s[[j]] = subset(df_t2, select=c(paste("t2_til_s_",1:maxT[j],sep="")))
@@ -62,8 +63,8 @@ for(i in 1:4){
     t2_til_s_p[[j]] = subset(df_t2, select=c(paste("t2_til_s_p_",1:maxT[j],sep="")))
     t2_hat[[j]] = subset(df_t2_fm, select=c(paste("t2_hat_",1:maxT[j],sep="")))
     
-    df_t2 = read.csv(paste("t3",theta3[i],"/df_","t2_cp_",maxT[j],".csv",sep=""))
-    df_t2_fm = read.csv(paste("t3",theta3[i],"/df_","t2_cp_",maxT[j],"_fm.csv",sep=""))
+    df_t2 = read.csv(paste("pt3",theta3[i],"/df_","t2_cp_",maxT[j],".csv",sep=""))
+    df_t2_fm = read.csv(paste("pt3",theta3[i],"/df_","t2_cp_",maxT[j],"_fm.csv",sep=""))
     
     t2_til_CP[[j]] = subset(df_t2, select=c(paste("t2_til_",1:maxT[j],sep="")))
     t2_til_s_CP[[j]] = subset(df_t2, select=c(paste("t2_til_s_",1:maxT[j],sep="")))
@@ -143,4 +144,4 @@ g=arrangeGrob(grobs=grobList,ncol=4,widths=c(1,1,1,1.5),heights=c(1,1,1,1))
 
 dev.off()
 
-ggsave("plots_alpha_fm_3.png",g,width=10,height=10)
+ggsave("plots_alpha_poly_fm_3.png",g,width=10,height=10)
