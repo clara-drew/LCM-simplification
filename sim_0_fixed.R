@@ -3,7 +3,6 @@ library(xtable)
 library(parallel)
 library(ggplot2)
 source("../EM_functions_MAR.R")
-source("t2_poly_fun.R")
 set.seed(122)
 
 cover = function(p,phat,n){
@@ -173,7 +172,7 @@ start = Sys.time()
   
 for(j in 1:length(maxT)){
 
-  t2=t2_poly(maxT[j])
+  t2=invlogit(b0+b2[j]*(0:(maxT[j]-1)))
 
   t1_til[[j]] = rep(NA,its)
   t1_til_s[[j]] = rep(NA,its)
@@ -333,13 +332,13 @@ for(j in 1:length(maxT)){
     df_t1 = data.frame(t1_til=t1_til[[j]],t1_til_p=t1_til_p[[j]],t1_til_s=t1_til_s[[j]],t1_til_s_p=t1_til_s_p[[j]],t1_hat=t1_hat[[j]])
     df_t2 = cbind(t2_til[[j]],t2_til_p[[j]],t2_til_s[[j]],t2_til_s_p[[j]],t2_hat[[j]])
     colnames(df_t2)=c(paste("t2_til_",1:maxT[j],sep=""),paste("t2_til_p_",1:maxT[j],sep=""),paste("t2_til_s_",1:maxT[j],sep=""),paste("t2_til_s_p_",1:maxT[j],sep=""),paste("t2_hat_",1:maxT[j],sep=""))
-    write.csv(df_t1,paste("pt30/df_","t1_",maxT[j],".csv",sep=""))
-    write.csv(df_t2,paste("pt30/df_","t2_",maxT[j],".csv",sep=""))
+    write.csv(df_t1,paste("t30/df_","t1_",maxT[j],".csv",sep=""))
+    write.csv(df_t2,paste("t30/df_","t2_",maxT[j],".csv",sep=""))
     df_t1_cp= data.frame(t1_til=t1_til_CP[[j]],t1_til_p=t1_til_p_CP[[j]],t1_til_s=t1_til_s_CP[[j]],t1_til_s_p=t1_til_s_p_CP[[j]],t1_hat=t1_hat_CP[[j]])
     df_t2_cp= cbind(t2_til_CP[[j]],t2_til_p_CP[[j]],t2_til_s_CP[[j]],t2_til_s_p_CP[[j]],t2_hat_CP[[j]])
     colnames(df_t2_cp)=c(paste("t2_til_",1:maxT[j],sep=""),paste("t2_til_p_",1:maxT[j],sep=""),paste("t2_til_s_",1:maxT[j],sep=""),paste("t2_til_s_p_",1:maxT[j],sep=""),paste("t2_hat_",1:maxT[j],sep=""))
-    write.csv(df_t1_cp,paste("pt30/df_","t1_cp_",maxT[j],".csv",sep=""))
-    write.csv(df_t2_cp,paste("pt30/df_","t2_cp_",maxT[j],".csv",sep=""))
+    write.csv(df_t1_cp,paste("t30/df_","t1_cp_",maxT[j],".csv",sep=""))
+    write.csv(df_t2_cp,paste("t30/df_","t2_cp_",maxT[j],".csv",sep=""))
 
   }
 
